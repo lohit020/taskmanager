@@ -2,11 +2,11 @@
 task manager api
 
 
-#install node modules 
+# install node modules 
 run i 
 
-#add configuration
+# add configuration
 add dev.env config file 
 
-#run application
+# run application
 node run start
