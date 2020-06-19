@@ -30,6 +30,8 @@ tasksSchema.methods.toJSON = function () {
     return taskDetailsObj;
 }
 
+tasksSchema.statics.objectId = (id) => mongoose.Types.ObjectId(id.trim())
+
 const Task = mongoose.model('Task', tasksSchema);
 
 module.exports = { Task };

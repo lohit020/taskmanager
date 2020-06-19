@@ -56,7 +56,7 @@ userSchema.statics.findByCredentials = async (userName, password) => {
     if (passwordCompare) {
         return userValidity;
     } else {
-        throw new Error('invalid user');
+        throw new Error('invalid username/password');
     }
 };
 
@@ -73,8 +73,7 @@ userSchema.methods.toJSON = function () {
     const userDetails = this;
     const userDetailsObj = userDetails.toObject();
     delete userDetailsObj.password;
-    delete userDetailsObj.tokens;
-    delete userDetailsObj.avatar;
+    delete userDetailsObj.tokens;   
     return userDetailsObj;
 }
 

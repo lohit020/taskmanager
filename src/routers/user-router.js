@@ -22,13 +22,12 @@ userRouter.post('/signup', async (req, res) => {
     const user = new User(req.body);
     try {
         const userDetails = await user.save();
-        const token = await user.generateAuthToken();
-        await sendWelcomeEmail(userDetails.emailID, userDetails.userName)
-        res.send({ user: userDetails, token });
+        const userSessionToken = await user.generateAuthToken();
+        // await sendWelcomeEmail(userDetails.emailID, userDetails.userName)
+        res.send({ user: userDetails, userSessionToken });
     } catch (e) {
-        res.status(406).send('could not inserted')
+        res.status(406).send(e.message)
     }
-
 });
 
 userRouter.post('/add-avatar', auth, upload.single('avatar'), async (req, res) => {
@@ -40,10 +39,9 @@ userRouter.post('/add-avatar', auth, upload.single('avatar'), async (req, res) =
     res.status(401).send(error.message)
 })
 
-userRouter.get('/avatar', async (req, res) => {
+userRouter.get('/avatar', auth, async (req, res) => {
     try {
-        const user = await User.findOne(req.query)
-
+        const user = req.user
         if (!user || !user.avatar) {
             throw new Error('No avatar')
         }
@@ -72,7 +70,15 @@ userRouter.post('/login', async (req, res) => {
         const userSessionToken = await user.generateAuthToken();
         res.send({ user, userSessionToken });
     } catch (error) {
-        res.status('401').send('invalid userName / password')
+        res.status('401').send(error.message)
+    }
+});
+
+userRouter.get('/authenticate', auth, async (req, res) => {
+    try {
+        res.send(req.user);
+    } catch (error) {
+        res.status('401').send(error.message)
     }
 });
 
