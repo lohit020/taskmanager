@@ -23,7 +23,7 @@ userRouter.post('/signup', async (req, res) => {
     try {
         const userDetails = await user.save();
         const userSessionToken = await user.generateAuthToken();
-        // await sendWelcomeEmail(userDetails.emailID, userDetails.userName)
+        await sendWelcomeEmail(userDetails.emailID, userDetails.userName)
         res.send({ user: userDetails, userSessionToken });
     } catch (e) {
         res.status(406).send(e.message)
