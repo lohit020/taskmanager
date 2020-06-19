@@ -7,8 +7,8 @@ const sendWelcomeEmail = (email, name) => {
         to: email,
         from: 'lohitb@outlook.com',
         subject: 'Welcome mail from task manager',
-        text: `hi ${name},`,
-        html: '<strong>this is welcome mail</strong>',
+        html: `<h4>hi ${name},<h4><br>
+        <strong>Welcome to-do app</strong>`
     }
     return sgMail.send(emailDetail)
 };
