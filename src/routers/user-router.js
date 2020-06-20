@@ -34,7 +34,7 @@ userRouter.post('/add-avatar', auth, upload.single('avatar'), async (req, res) =
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer;
     await req.user.save();
-    res.send('avatar uploaded');
+    res.send({ user: req.user });
 }, (error, req, res, next) => {
     res.status(401).send(error.message)
 })
